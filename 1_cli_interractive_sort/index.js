@@ -29,7 +29,7 @@ async function interactiveSort() {
     }
 
     const values = input.split(' ');
-console.log(values)
+
     const operation = await getInput(
       'Select the operation to perform:\n' +
       '1. Sort words alphabetically\n' +
@@ -37,7 +37,7 @@ console.log(values)
       '3. Show numbers from bigger to smaller\n' +
       '4. Display words in ascending order by number of letters in the word\n' +
       '5. Show only unique words\n' +
-      '6. Display only unique values\n' +
+      '6. Display only unique values from the set of words and numbers\n' +
       'Enter the number corresponding to the operation: '
     );
 
@@ -46,19 +46,19 @@ console.log(values)
         console.log(operations.sortsWordsAlphabetically(values));
         break;
       case '2':
-        console.log(operations.sortNumbersAscending(values));
+        console.log(operations.sortsNumbersAscending(values));
         break;
       case '3':
-        console.log(operations.sortNumbersDescending(values));
+        console.log(operations.sortsNumbersDescending(values));
         break;
       case '4':
-        console.log(operations.sortByWordLength(values));
+        console.log(operations.sortsByWordLength(values));
         break;
       case '5':
-        console.log(operations.getUniqueWords(values));
+        console.log(operations.showsUniqueWords(values));
         break;
       case '6':
-        console.log(operations.getUniqueValues(values));
+        console.log(operations.showsUniqueValues(values));
         break;
       default:
         console.log('Invalid operation. Please try again.');

@@ -1,32 +1,40 @@
+function sortsWords(data) {
+    return data.filter(item => isNaN(Number(item)) && item !== "0");
+}
+
+function sortsNumbers(data) {
+    return data.filter(item => !isNaN(Number(item)) || item === "0");
+}
+
 function sortsWordsAlphabetically(data) {
-    return data.filter(item => isNaN(Number(item)) && item !== "0").sort();
+    return sortsWords(data).sort();
 }
 
-function sortNumbersAscending(numbers) {
-  return numbers.sort((a, b) => a - b);
+function sortsNumbersAscending(data) {
+  return sortsNumbers(data).sort((a, b) => a - b);
 }
 
-function sortNumbersDescending(numbers) {
-  return numbers.sort((a, b) => b - a);
+function sortsNumbersDescending(data) {
+  return sortsNumbers(data).sort((a, b) => b - a);
 }
 
-function sortByWordLength(words) {
-  return words.sort((a, b) => a.length - b.length);
+function sortsByWordLength(data) {  
+  return sortsWordsAlphabetically(data).sort((a, b) => a.length - b.length);
 }
 
-function getUniqueWords(words) {
-  return [...new Set(words)];
+function showsUniqueWords(data) {
+  return [...new Set(sortsWords(data))];
 }
 
-function getUniqueValues(values) {
-  return [...new Set(values)];
+function showsUniqueValues(data) {
+  return [...new Set(data)];
 }
 
 module.exports = {
     sortsWordsAlphabetically,
-    sortNumbersAscending,
-    sortNumbersDescending,
-    sortByWordLength,
-    getUniqueWords,
-    getUniqueValues
+    sortsNumbersAscending,
+    sortsNumbersDescending,
+    sortsByWordLength,
+    showsUniqueWords,
+    showsUniqueValues
 }
