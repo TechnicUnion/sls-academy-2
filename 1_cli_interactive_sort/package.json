@@ -1,20 +1,17 @@
 {
-  "name": "sls-academy-2",
+  "name": "1_cli_interactive_sort",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "task_1": "node 1_cli_interractive_sort/index",
+    "task_1": "node index",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/TechnicUnion/sls-academy-2.git"
   },
+  "keywords": [],
   "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/TechnicUnion/sls-academy-2/issues"
-  },
-  "homepage": "https://github.com/TechnicUnion/sls-academy-2#readme"
+  "license": "ISC"
 }
