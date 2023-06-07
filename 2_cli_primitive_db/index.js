@@ -10,7 +10,7 @@ function addUser() {
     {
         type: 'input',
         name: 'name',
-        message: 'Enter the users name. To cansel press ENTER:',
+        message: 'Enter the user\'s name. To cansel press ENTER:',
         },
     ])
      .then((answers) => {
@@ -38,8 +38,7 @@ function addUser() {
               age,
             };
             const userData = JSON.stringify(user);
-
-            fs.appendFile(databaseFile, userData + '\n', 'utf8');
+            fs.appendFile(databaseFile, userData, 'utf8');
             addUser(); // Repeat the cycle to add another user
           });
       } else {
@@ -49,55 +48,47 @@ function addUser() {
 }
 
 function findUser() {
-  inquirer
+    inquirer
     .prompt([
       {
         type: 'confirm',
         name: 'search',
         message: 'Would you like to search values in DB?:',
-        
       },
     ])
-      .then((answers) => {
-       
-          const { search } = answers;
-           console.log(search)
-    //   if (searchName.trim() !== '') {
-    //     fs.readFile(databaseFile, 'utf8', (err, data) => {
-    //       if (err) {
-    //         console.error('Error reading the database file:', err);
-    //         return;
-    //       }
+      .then(async (answers) => {
+        const { search } = answers;
+        if (search) {
+            const list = await fs.readFile(databaseFile, "utf-8");
+            const users = list.split('\n');
+            let foundUser = false;
+            let userData = [];
+            for (const user of users) {
+                if (user.trim() !== '') {
+                userData.push(JSON.parse(user)); 
+                }
+            }
+            console.log(userData);
+             //   if (userData.name.toLowerCase() === search.toLowerCase()) {
+            //     console.log('User found:');
+            //     console.log('Name:', userData.name);
+            //     console.log('Gender:', userData.gender);
+            //     console.log('Age:', userData.age);
+            //     console.log();
+            //     foundUser = true;
+            //     break;
+            //   }
 
-    //       const users = data.split('\n');
-    //       let foundUser = false;
 
-    //       for (const user of users) {
-    //         if (user.trim() !== '') {
-    //           const userData = JSON.parse(user);
-    //           if (userData.name.toLowerCase() === searchName.toLowerCase()) {
-    //             console.log('User found:');
-    //             console.log('Name:', userData.name);
-    //             console.log('Gender:', userData.gender);
-    //             console.log('Age:', userData.age);
-    //             console.log();
-    //             foundUser = true;
-    //             break;
-    //           }
-    //         }
-    //       }
-
-    //       if (!foundUser) {
-    //         console.log('User not found.\n');
-    //       }
-
-    //       findUser(); // Repeat the cycle to search for another user
-    //     });
-    //   } else {
-    //     console.log('Exiting the application.');
-    //   }
-    });
-    }
+          if (!foundUser) {
+            console.log('User not found.\n');
+          }
+        }
+        else {
+        console.log('Exiting the application.');
+      }
+      });
+}
 
 // Start the application
 addUser(); // Prompt to add a user

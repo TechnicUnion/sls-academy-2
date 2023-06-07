@@ -1,1 +1,3 @@
-{"name":"Serhii","gender":"Male","age":35}{"name":"g","gender":"Male","age":5}
+{"name":"serg","gender":"Male","age":34}
+{"name":"ann","gender":"Female","age":30}
+{"name":"den","gender":"Male","age":45}
