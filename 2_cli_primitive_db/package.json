@@ -1,5 +1,5 @@
 {
-  "name": "1_cli_interactive_sort",
+  "name": "2_cli_primitive_db",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,11 +7,10 @@
     "start": "node index",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/TechnicUnion/sls-academy-2.git"
-  },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "inquirer": "^8.2.5"
+  }
 }
