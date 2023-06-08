@@ -1,3 +1,5 @@
-{"name":"serg","gender":"Male","age":34}
-{"name":"ann","gender":"Female","age":30}
-{"name":"den","gender":"Male","age":45}
+{"name":"Serg","gender":"male","age":34}
+{"name":"Ann","gender":"female","age":30}
+{"name":"Den","gender":"male","age":45}
+{"name":"Alex","gender":"male","age":26}
+{"name":"Piter","gender":"female","age":65}
