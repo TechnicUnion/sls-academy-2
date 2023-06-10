@@ -1,11 +1,7 @@
-// '6032565948:AAGouNkYRNmnK1IiYPRv6DrM6ao13TBGf3I'
-process.env["NTBA_FIX_350"] = 1
-
 const { program } = require('commander');
 const TelegramBot = require('node-telegram-bot-api');
 
-const TOKEN = '6032565948:AAGouNkYRNmnK1IiYPRv6DrM6ao13TBGf3I';
-const CHAT_ID = "534196505"
+const { TOKEN, CHAT_ID } = process.env;
 
 const bot = new TelegramBot(TOKEN, {polling: true});
 
