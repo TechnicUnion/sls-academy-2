@@ -2,10 +2,10 @@
 const getWeatherForecast = require('./operations')
 const TelegramBot = require('node-telegram-bot-api');
 
-const bot = new TelegramBot(TOKEN, { polling: true });
-
 const { TOKEN } = process.env;
 const city = 'Kyiv'
+
+const bot = new TelegramBot(TOKEN, { polling: true });
 
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
