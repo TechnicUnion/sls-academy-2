@@ -38,8 +38,18 @@ bot.on('message', (msg) => {
           }
         })
       
-    } else if (msg.text === 'Exchange rater') {
-      console.log('Exchange rate');
+    } else if (msg.text === 'Exchange rate') {
+        bot.sendMessage(chatId, `Please select the exchange currency:`, {
+          reply_markup: {
+            keyboard: [
+              [
+                { text: 'USD' },
+                { text: 'EUR' }
+              ],
+              [{ text: 'Main menu' }]
+            ]
+          }
+        })
 
     } else if (msg.text === 'Every 3 hours' || msg.text === 'Every 6 hours') {
       const interval = msg.text.split(" ")[1];
@@ -50,6 +60,9 @@ bot.on('message', (msg) => {
             .catch((error) => {
                 console.error('Error:', error);
             });
+      
+    } else {
+      console.log('USD')
     }
 });
 
