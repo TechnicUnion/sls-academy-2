@@ -1,5 +1,5 @@
 
-const getWeatherForecast = require('./operations')
+const { getWeatherForecast, getExchangeRates } = require('./operations')
 const TelegramBot = require('node-telegram-bot-api');
 
 // const { TOKEN } = process.env;
@@ -62,7 +62,14 @@ bot.on('message', (msg) => {
             });
       
     } else {
-      console.log('USD')
+      console.log(getExchangeRates())
+      getExchangeRates()
+        .then((rate) => {
+                bot.sendMessage(chatId, rate);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
     }
 });
 
