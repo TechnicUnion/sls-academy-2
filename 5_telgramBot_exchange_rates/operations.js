@@ -1,9 +1,12 @@
 const axios = require('axios');
+const NodeCache = require('node-cache');
 
-const openWeatherMapApiKey = '54a2999fedf0415e88de92264d6355f3';
+// -----------WEATHER API OPERATIONS----------------
+
+const { weatherApiKey } = process.env;
 
 function getWeatherForecast(city, interval) {
-  const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${openWeatherMapApiKey}&units=metric`;
+  const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${weatherApiKey}&units=metric`;
 
   return axios.get(apiUrl)
     .then((response) => {
@@ -28,17 +31,11 @@ function getWeatherForecast(city, interval) {
     });
 }
 
-//__________________________-
+// -----------EXCHANGE RATE OPERATIONS----------------
+const cache = new NodeCache();
 
-
-const NodeCache = require('node-cache');
-
-// Create a cache instance with a TTL of 60 seconds
-const cache = new NodeCache({ stdTTL: 60 });
-
-// Function to fetch exchange rates from PrivatBank API
-async function fetchPrivatBankExchangeRate() {
-  const cacheKey = 'privatbank_rate';
+async function privatBankRateApi(currency) {
+  const cacheKey = `privatbank_rate_${currency}`;
   const cachedRate = cache.get(cacheKey);
 
   if (cachedRate) {
@@ -47,21 +44,18 @@ async function fetchPrivatBankExchangeRate() {
 
   try {
     const response = await axios.get('https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5');
-    const exchangeRate = response.data.find(rate => rate.ccy === 'USD' && rate.base_ccy === 'UAH');
-    
-    // Cache the exchange rate for 60 seconds
+    const exchangeRate = response.data.find(rate => rate.ccy === currency && rate.base_ccy === 'UAH');
     cache.set(cacheKey, exchangeRate, 60);
 
     return exchangeRate;
   } catch (error) {
-    console.error('Failed to fetch PrivatBank exchange rate', error);
-    throw error;
+      console.error('Failed to fetch PrivatBank exchange rate', error);
+      throw error;
   }
 }
 
-// Function to fetch exchange rates from Monobank API
-async function fetchMonobankExchangeRate() {
-  const cacheKey = 'monobank_rate';
+async function monobankRateApi(currency) {
+  const cacheKey = `monobank_rate_${currency}`;
   const cachedRate = cache.get(cacheKey);
 
   if (cachedRate) {
@@ -70,29 +64,31 @@ async function fetchMonobankExchangeRate() {
 
   try {
     const response = await axios.get('https://api.monobank.ua/bank/currency');
-    const exchangeRate = response.data.find(rate => rate.currencyCodeA === 840 && rate.currencyCodeB === 980);
-    
-    // Cache the exchange rate for 60 seconds
+    let currencyCode = null;
+    if (currency === 'USD') {
+      currencyCode = 840;
+    } else {
+      currencyCode = 978;
+    }
+    const exchangeRate = response.data.find(rate => rate.currencyCodeA === currencyCode && rate.currencyCodeB === 980);
     cache.set(cacheKey, exchangeRate, 60);
 
     return exchangeRate;
   } catch (error) {
-    console.error('Failed to fetch Monobank exchange rate', error);
-    throw error;
+      console.error('Failed to fetch Monobank exchange rate', error);
+      throw error;
   }
 }
 
-// Example usage
-async function getExchangeRates() {
- 
-  const privatBankRate = await fetchPrivatBankExchangeRate();
-  const monobankRate = await fetchMonobankExchangeRate();
-  
-  const rate = `PrivatBank USD/UAH exchange rate: ${ privatBankRate.buy }\n` + `Monobank USD/UAH exchange rate: ${ monobankRate.rateBuy }\n` 
- return rate
-}
-//_____________________________________________________
+async function getExchangeRates(currency) {
+  const privatBankRate = await privatBankRateApi(currency);
+  const monobankRate = await monobankRateApi(currency);
 
+  return `PrivatBank ${ currency } exchange rate: ${ privatBankRate.buy } / ${ privatBankRate.sale }\n` +
+    `Monobank ${ currency } exchange rate: ${ monobankRate.rateBuy } / ${ monobankRate.rateSell }\n` 
+}
+
+// -----------EXPORTS----------------
 
 module.exports = {
   getWeatherForecast,

@@ -2,8 +2,7 @@
 const { getWeatherForecast, getExchangeRates } = require('./operations')
 const TelegramBot = require('node-telegram-bot-api');
 
-// const { TOKEN } = process.env;
-const TOKEN = '6032565948:AAGouNkYRNmnK1IiYPRv6DrM6ao13TBGf3I';
+const { TOKEN } = process.env;
 const city = 'Kyiv'
 
 const bot = new TelegramBot(TOKEN, { polling: true });
@@ -62,8 +61,7 @@ bot.on('message', (msg) => {
             });
       
     } else {
-      console.log(getExchangeRates())
-      getExchangeRates()
+      getExchangeRates(msg.text)
         .then((rate) => {
                 bot.sendMessage(chatId, rate);
             })
